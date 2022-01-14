@@ -82,15 +82,16 @@ pub fn instantiate(
         },
     )?;
 
+    let aterra_contract_name = format!("Anchor Terra {}", msg.stable_denom[1..].to_uppercase());
     Ok(
         Response::new().add_submessages(vec![SubMsg::reply_on_success(
             CosmosMsg::Wasm(WasmMsg::Instantiate {
                 admin: None,
                 code_id: msg.aterra_code_id,
                 funds: vec![],
-                label: "".to_string(),
+                label: aterra_contract_name.to_string(),
                 msg: to_binary(&TokenInstantiateMsg {
-                    name: format!("Anchor Terra {}", msg.stable_denom[1..].to_uppercase()),
+                    name: aterra_contract_name,
                     symbol: format!(
                         "a{}T",
                         msg.stable_denom[1..(msg.stable_denom.len() - 1)].to_uppercase()
